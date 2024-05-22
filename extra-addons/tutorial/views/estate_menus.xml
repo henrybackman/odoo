@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="tutorial_menu_root" name="Tutorial Estate Property">
+        <menuitem id="tutorial_menu_first_level" name="FIRST LEVEL HEADER">
+            <menuitem id="tutorial_menu_action" action="tutorial_estate_property"/>
+        </menuitem>
+    </menuitem>
+
+</odoo>

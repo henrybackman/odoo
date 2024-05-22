@@ -7,7 +7,6 @@ if [ -v PASSWORD_FILE ]; then
 fi
 
 echo "Starting custom entrypoint script"
-echo "Password: $PASSWORD"
 
 # set the postgres database host, port, user and password according to the environment
 # and pass them as arguments to the odoo process if not present in the config file
@@ -31,16 +30,10 @@ check_config "db_port" "$PORT"
 check_config "db_user" "$USER"
 check_config "db_password" "$PASSWORD"
 
-echo "db_host: $HOST"
-echo "db_password: $PASSWORD"
-
-echo "First: $1"
-
 wait-for-psql.py ${DB_ARGS[@]} --timeout=30
 echo "PSQL ready..."
 
-# custom command to update tutorial modules
-
+# custom command to update tutorial modules when starting the container
 exec odoo -d odoo -u tutorial "$@" "${DB_ARGS[@]}"
 
 # case "$1" in
