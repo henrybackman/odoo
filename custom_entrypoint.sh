@@ -34,7 +34,7 @@ wait-for-psql.py ${DB_ARGS[@]} --timeout=30
 echo "PSQL ready..."
 
 # custom command to update tutorial modules when starting the container
-exec odoo -d odoo -u tutorial "$@" "${DB_ARGS[@]}"
+exec odoo -d odoo -u tutorial --dev xml "$@" "${DB_ARGS[@]}"
 
 # case "$1" in
 #     -- | odoo)
