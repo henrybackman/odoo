@@ -12,9 +12,9 @@
                 <field name="bedrooms" string="Bedrooms" />
                 <field name="living_area" string="Living Area (sqm)" />
                 <field name="facades" string="Facades" />
+                <field name="property_type_id" string="Property type" />
                 <filter name="state" string="Availability" domain="['|', ('state', '=', 'new'), ('state', '=', 'offer_received')]" />
                 <filter name="postcode" string="Postcode" context="{'group_by': 'postcode'}"/>
-
             </search>
         </field>
     </record>
@@ -25,8 +25,9 @@
         <field name="arch" type="xml">
             <form string="Properties">
                 <sheet>
-                    <group string="My new house" colspan="2">
+                    <group string="Property details" colspan="2">
                         <field name="name"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
                         <group>
                             <field name="postcode"/>
                             <field name="date_availability"/>
@@ -48,6 +49,16 @@
                                 <field name="garden_area" string="Garden Area (sqm)"/>
                                 <field name="garden_orientation" string="Garden Orientation"/>
                                 <field name="active" string="Available"/>
+                                <field name="property_type_id" string="Property type"/>
+                            </group>
+                        </page>
+                        <page string="Offers">
+                            <field name="offer_ids" mode="tree"/>
+                        </page>
+                        <page string="Other info">
+                            <group>
+                                <field name="buyer_id" string="Buyer"/>
+                                <field name="salesperson_id" string="Sales person"/>
                             </group>
                         </page>
                     </notebook>
@@ -68,12 +79,14 @@
                 <field name="expected_price" string="Expected price"/>
                 <field name="selling_price" string="Selling price"/>
                 <field name="date_availability" string="Available from"/>
+                <field name="property_type_id" string="Property type"/>
+                <field name="tag_ids" string="Tags" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
 
     <!-- Tutorial view -->
-    <record id="tutorial_estate_property" model="ir.actions.act_window">
+    <record id="action_estate_property" model="ir.actions.act_window">
         <field name="name">Estate properties</field>
         <field name="res_model">estate_property</field>
         <field name="view_mode">tree,form</field>

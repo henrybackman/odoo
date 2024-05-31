@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="tutorial_property_offer_view_form" model="ir.ui.view">
+        <field name="name">tutorial.property_offer.form</field>
+        <field name="model">property_offer</field>
+        <field name="arch" type="xml">
+            <form string="Property type">
+                <sheet>
+                    <group>
+                        <field name="price" string="Price" />
+                        <field name="partner_id" string="Partner"/>
+                        <field name="status" string="Status"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tutorial_property_offer_view_tree" model="ir.ui.view">
+        <field name="name">tutorial.property_offer.tree</field>
+        <field name="model">property_offer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="price" />
+                <field name="partner_id" />
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+</odoo>

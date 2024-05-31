@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="tutorial_property_type_view_form" model="ir.ui.view">
+        <field name="name">tutorial.property_type.form</field>
+        <field name="model">property_type</field>
+        <field name="arch" type="xml">
+            <form string="Property type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tutorial_property_type_view_tree" model="ir.ui.view">
+        <field name="name">tutorial.property_type.tree</field>
+        <field name="model">property_type</field>
+        <field name="arch" type="xml">
+            <tree string="Types">
+                <field name="name" string="Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_property_type" model="ir.actions.act_window">
+        <field name="name">Property types</field>
+        <field name="res_model">property_type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
