@@ -18,12 +18,18 @@
             </search>
         </field>
     </record>
-
+=[('new', 'New'), ('offer_received', 'Offer Received'), ('offer_accepted', 'Offer Accepted'),
+                   ('sold', 'Sold'), ('canceled', 'Canceled')],
     <record id="tutorial_estate_property_view_form" model="ir.ui.view">
         <field name="name">tutorial.estate_property.form</field>
         <field name="model">estate_property</field>
         <field name="arch" type="xml">
             <form string="Properties">
+                <header>
+                    <button name="action_sell_property" type="object" string="Sold"/>
+                    <button name="action_cancel_property" type="object" string="Cancel"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold" />
+                </header>
                 <sheet>
                     <group string="Property details" colspan="2">
                         <field name="name"/>
@@ -31,6 +37,7 @@
                         <group>
                             <field name="postcode"/>
                             <field name="date_availability"/>
+                            <field name="state" />
                         </group>
                         <group>
                             <field name="expected_price"/>

@@ -1,4 +1,6 @@
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
+
 
 class EstateProperty(models.Model):
     _name = 'estate_property'
@@ -38,7 +40,23 @@ class EstateProperty(models.Model):
     total_area = fields.Integer(compute='_compute_total_area', store=True)
     best_price = fields.Float(readonly=True, compute='_compute_best_price')
 
-    @api.depends('living_area', 'garden_area')
+    _sql_constraints = [
+        ("check_expected_price", "CHECK(expected_price > 0)", "Expected price must be strictly positive"),
+        ("check_selling_price", "CHECK(selling_price >= 0)", "Selling price must be positive"),
+        ("name_uniq", "UNIQUE(name)", "Property name must be unique"),
+    ]
+
+    # if either expected price or selling price is changed 
+    # constraint to check the selling price is at least 90% of the expected price
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        for record in self:
+            if not record.selling_price or not record.expected_price:
+                continue
+            if record.selling_price < record.expected_price * 0.9:
+                raise ValidationError(_('The selling price cannot be less than 90% of the expected price.'))
+
+    @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for record in self:
             record.total_area = record.living_area + record.garden_area
@@ -47,17 +65,29 @@ class EstateProperty(models.Model):
     def _compute_best_price(self):
         for record in self:
             prices = record.mapped('offer_ids.price') or [0]
+
             record.best_price = max(prices)
 
     @api.onchange('garden')
     def _onchange_garden(self):
-        if self.garden:
-            self.garden_area = 10
-            self.garden_orientation = 'north'
-        else:
-            self.garden_area = 0
-            self.garden_orientation = False
-            return {'warning': {
-                'title': _('Warning'),
-                'message': ('Property without a garden won\'t sell')}}
-        
+        for record in self:
+            if record.garden:
+                record.garden_area = 10
+                record.garden_orientation = 'north'
+            else:
+                record.garden_area = 0
+                record.garden_orientation = False
+
+    def action_sell_property(self):
+        for record in self:
+            if record.state == 'canceled':
+                raise UserError(_('You cannot sell a canceled property.'))
+            record.write({'state': 'sold'})
+        return True
+
+    def action_cancel_property(self):
+        for record in self:
+            if record.state == 'sold':
+                raise UserError(_('You cannot cancel a sold property.'))
+            record.write({'state': 'canceled'})
+        return True

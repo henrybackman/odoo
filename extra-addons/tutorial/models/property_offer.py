@@ -15,6 +15,10 @@ class PropertyOffer(models.Model):
     validity = fields.Integer()
     date_deadline = fields.Datetime(compute='_compute_date_deadline', inverse='_set_validity', store=True)
 
+    _sql_constraints = [
+        ('check_price', 'CHECK(price >= 0)', 'Property offer prices must be strictly positive')
+    ]
+
     @api.depends('validity', 'date_deadline', 'create_date')
     def _compute_date_deadline(self):
         for record in self:
@@ -25,9 +29,9 @@ class PropertyOffer(models.Model):
             validity_day = record.validity
             if not validity_day:
                 validity_day = 0
-                
+
             if record.validity:
-                record.date_deadline = fields.Datetime.add(offer_created, days=record.validity)
+                record.date_deadline = fields.Datetime.add(offer_created, days=validity_day)
 
     @api.depends('validity', 'date_deadline', 'create_date')
     def _set_validity(self):
@@ -37,3 +41,19 @@ class PropertyOffer(models.Model):
                 offer_created = fields.Datetime.now()
             if record.date_deadline:
                 record.validity = (record.date_deadline - offer_created).days
+
+    def action_refuse_offer(self):
+        for record in self:
+            record.write({'status': 'refused'})
+
+    @api.depends('status', 'estate_property', 'partner_id')
+    def action_accept_offer(self):
+        for record in self:
+            record.write({'status': 'accepted'})
+            # update the parent property
+            record.property_id.write({
+                'state': 'offer_accepted',
+                'buyer_id': record.partner_id,
+                'selling_price': record.price
+            })
+        return True

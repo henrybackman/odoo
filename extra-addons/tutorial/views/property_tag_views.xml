@@ -5,7 +5,7 @@
         <field name="name">tutorial.property_tag.form</field>
         <field name="model">property_tag</field>
         <field name="arch" type="xml">
-            <form string="Property type">
+            <form string="Property tag">
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -26,7 +26,7 @@
     </record>
 
     <record id="action_property_tag" model="ir.actions.act_window">
-        <field name="name">Property types</field>
+        <field name="name">Property tags</field>
         <field name="res_model">property_tag</field>
         <field name="view_mode">tree,form</field>
     </record>
