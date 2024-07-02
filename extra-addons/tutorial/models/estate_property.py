@@ -5,8 +5,9 @@ from odoo.exceptions import UserError, ValidationError
 class EstateProperty(models.Model):
     _name = 'estate_property'
     _description = 'Estate properties for tutorial'
+    _order = 'id desc'
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, copy=False)
     description = fields.Text()
     postcode = fields.Char()
     date_availability = fields.Date(copy=False, default=fields.Date.add(fields.Date.today(), months=3))
@@ -23,7 +24,7 @@ class EstateProperty(models.Model):
         selection=[('north', 'North'), ('south', 'South'), ('east', 'East'), ('west', 'West')],
         help='Garden orientation'
     )
-    active = fields.Boolean(default=True)
+    active = fields.Boolean(default=True, string="Available")
     state = fields.Selection(
         required=True,
         string='Status',

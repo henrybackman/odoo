@@ -19,7 +19,7 @@
         <field name="name">tutorial.property_tag.tree</field>
         <field name="model">property_tag</field>
         <field name="arch" type="xml">
-            <tree string="Tags">
+            <tree string="Tags" editable="bottom" >
                 <field name="name" string="Name"/>
             </tree>
         </field>
