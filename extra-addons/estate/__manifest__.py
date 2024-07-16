@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'New Real Estate TUTORIAL',
+    'name': 'Estate',
     'description': 'Tutorial exercise module',
     'application': True,
     'data': [
@@ -11,7 +10,7 @@
         'views/estate_property_views.xml',
         'views/property_type_views.xml',
         'views/property_tag_views.xml',
-        'views/tutorial_menus.xml',
+        'views/estate_menus.xml',
         'views/res_users_views.xml',
     ]
 }
