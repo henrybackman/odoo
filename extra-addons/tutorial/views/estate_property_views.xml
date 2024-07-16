@@ -84,12 +84,12 @@
         <field name="name">tutorial.estate_property.tree</field>
         <field name="model">estate_property</field>
         <field name="arch" type="xml">
-            <tree string="Properties"
-                decoration-success="state in ('offer_received', 'offer_accepted')"
+            <tree decoration-success="state in ('offer_received', 'offer_accepted')"
                 decoration-bf="state == 'offer_accepted'"
                 decoration-muted="state == 'sold'"
                 >
                 <field name="name" string="Name"/>
+                <field name="salesperson_id" string="Salesperson" widget="many2one_avatar_user"/>
                 <field name="state" string="State"/>
                 <field name="postcode" string="Postcode"/>
                 <field name="tag_ids" string="Tags" widget="many2many_tags"/>

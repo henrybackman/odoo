@@ -12,5 +12,6 @@
         'views/property_type_views.xml',
         'views/property_tag_views.xml',
         'views/tutorial_menus.xml',
+        'views/res_users_views.xml',
     ]
 }

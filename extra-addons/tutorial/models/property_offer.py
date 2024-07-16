@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 class PropertyOffer(models.Model):
     _name = 'property_offer'
@@ -59,3 +60,12 @@ class PropertyOffer(models.Model):
                 'selling_price': record.price
             })
 
+    @api.model
+    def create(self, vals):
+        property = self.env['estate_property'].browse(vals.get('property_id'))
+        # raise error if a higher offer has been received
+        if property.best_price >= vals.get('price'):
+            raise UserError('The offer price is not higher than the best offer received.')
+        # set property state to offer_received
+        property.write({'state': 'offer_received'})
+        return super().create(vals)
