@@ -6,5 +6,5 @@ class ResUsers(models.Model):
 
     # add field property_ids to res.users
     property_ids = fields.One2many(
-        "estate_property", "salesperson_id", string="Properties"
+        "property", "salesperson_id", string="Properties"
     )

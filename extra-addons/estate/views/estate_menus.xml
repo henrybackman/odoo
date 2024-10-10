@@ -3,7 +3,7 @@
 
     <menuitem id="estate_menu_root" name="Estate" />
     <menuitem id="estate_menu_action" name="Properties" parent="estate_menu_root"
-        action="action_estate_property" sequence="1" />
+        action="action_property" sequence="1" />
     <menuitem id="estate_menu_settings_root" name="Settings"
         parent="estate_menu_root" />
     <menuitem id="property_type_menu_action" name="Property Types"

@@ -18,7 +18,7 @@ class PropertyOffer(models.Model):
         default="pending",
     )
     partner_id = fields.Many2one("res.partner", string="Partner")
-    property_id = fields.Many2one("estate_property", string="Property")
+    property_id = fields.Many2one("property", string="Property")
     validity = fields.Integer()
     date_deadline = fields.Datetime(
         compute="_compute_date_deadline", inverse="_set_validity", store=True
@@ -64,7 +64,7 @@ class PropertyOffer(models.Model):
         for record in self:
             record.write({"status": "refused"})
 
-    @api.depends("status", "estate_property", "partner_id")
+    @api.depends("status", "property", "partner_id")
     def action_accept_offer(self):
         for record in self:
             record.write({"status": "accepted"})
@@ -79,7 +79,7 @@ class PropertyOffer(models.Model):
 
     @api.model
     def create(self, vals):
-        property = self.env["estate_property"].browse(vals.get("property_id"))
+        property = self.env["property"].browse(vals.get("property_id"))
         # raise error if a higher offer has been received
         if property.best_price >= vals.get("price"):
             raise UserError(
